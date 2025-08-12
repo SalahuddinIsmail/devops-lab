@@ -1,0 +1,41 @@
+name: Public Smoke
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch: {}
+  schedule:
+    - cron: "*/30 * * * *"
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      HOST: "172-171-46-69.sslip.io"
+      IP: "172.171.46.69"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Verify HTTPS (HEAD) with SNI
+        run: |
+          set -euo pipefail
+          code=$(curl -sS -o /dev/null -w "%{http_code}" "https://${HOST}/")
+          echo "Status: $code"
+          case "$code" in
+            200|301|302|308) exit 0 ;;
+            *) echo "Unexpected status: $code" && exit 1 ;;
+          esac
+
+      - name: Verify /healthz with direct IP pinning
+        run: |
+          set -euo pipefail
+          out=$(curl -sS --resolve "${HOST}:443:${IP}" "https://${HOST}/healthz")
+          echo "$out"
+          test "$out" = "ok" || { echo "healthz not ok"; exit 1; }
+
+      - name: Summary
+        run: |
+          echo "Public smoke passed against https://${HOST}/ and /healthz"
+
