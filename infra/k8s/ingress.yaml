@@ -1,0 +1,37 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-http01
+    cert-manager.io/trigger-time: "1754850848"
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"networking.k8s.io/v1","kind":"Ingress","metadata":{"annotations":{"cert-manager.io/cluster-issuer":"letsencrypt-staging","nginx.ingress.kubernetes.io/ssl-redirect":"true"},"name":"web-ingress","namespace":"default"},"spec":{"ingressClassName":"nginx","rules":[{"host":"172-173-150-245.sslip.io","http":{"paths":[{"backend":{"service":{"name":"web-clusterip","port":{"number":80}}},"path":"/","pathType":"Prefix"}]}}],"tls":[{"hosts":["172-173-150-245.sslip.io"],"secretName":"web-tls"}]}}
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+  creationTimestamp: "2025-08-10T04:52:26Z"
+  generation: 21
+  name: web-ingress
+  namespace: default
+  resourceVersion: "810493"
+  uid: 6009aa3a-0387-4a52-8bdc-a4346ed68434
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: 172-171-46-69.sslip.io
+    http:
+      paths:
+      - backend:
+          service:
+            name: web-clusterip
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - 172-171-46-69.sslip.io
+    secretName: web-tls
+status:
+  loadBalancer:
+    ingress:
+    - ip: 172.171.46.69

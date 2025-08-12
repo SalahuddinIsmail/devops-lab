@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: "2025-08-10T03:29:10Z"
+  labels:
+    app: web
+  name: web-clusterip
+  namespace: default
+  resourceVersion: "15199"
+  uid: 500f5316-e911-4d76-93d0-798d2faa3900
+spec:
+  clusterIP: 10.0.5.168
+  clusterIPs:
+  - 10.0.5.168
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: web
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}

@@ -1,0 +1,4 @@
+app-secret.yaml
+*.b64
+*.key
+*.pem
