@@ -12,8 +12,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     env:
-      HOST: "172-171-46-69.sslip.io"
-      IP: "172.171.46.69"
+      HOST: ${{ vars.PUBLIC_HOST }}
+      IP: ${{ vars.PUBLIC_IP }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -36,6 +36,4 @@ jobs:
           test "$out" = "ok" || { echo "healthz not ok"; exit 1; }
 
       - name: Summary
-        run: |
-          echo "Public smoke passed against https://${HOST}/ and /healthz"
-
+        run: echo "Public smoke passed against https://${HOST}/ and /healthz"
