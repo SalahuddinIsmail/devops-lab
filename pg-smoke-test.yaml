@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: pg-smoke-test
+spec:
+  template:
+    spec:
+      containers:
+        - name: psql
+          image: postgres:16-alpine
+          command: ["psql"]
+          args: ["-h", "postgres", "-U", "admin", "-d", "appdb", "-c", "SELECT 1;"]
+          envFrom:
+            - secretRef:
+                name: pg-secrets
+      restartPolicy: Never
+
