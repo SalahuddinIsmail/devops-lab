@@ -13,7 +13,7 @@ configMapGenerator:
           location = /healthz { return 200 "ok\n"; add_header Content-Type text/plain; }
           location / { try_files $uri $uri/ =404; }
         }
-patchesJson6902:
+patches:
   - target:
       group: apps
       version: v1
